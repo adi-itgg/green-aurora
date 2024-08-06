@@ -9,7 +9,7 @@ on:
         default: 21
   push:
     branches:
-      - main
+      - master
 
 jobs:
   auto_commit:
