@@ -1,2 +1,2 @@
-# green-aurora
+# Green Aurora
 The green aurora
