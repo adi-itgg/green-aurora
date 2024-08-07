@@ -1,0 +1,73 @@
+name: Commit Now
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Limit Commit'
+        required: true
+        default: 20
+  push:
+    branches:
+      - main
+
+jobs:
+  auto_commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set Config
+        run: |
+          git config --local user.email "${{ secrets.EMAIL }}"
+          git config --local user.name "${{ secrets.USERNAME }}"
+          git add -A
+          
+          arr[0]="chore(bot): 💪 Stay focus"
+          arr[1]="chore(bot): 😎 Stay motivated"
+          arr[2]="chore(bot): 🤯 Stay learn"
+          arr[3]="chore(bot): 🌟 Stay positive"
+          arr[4]="chore(bot): 👍 Stay good"
+          arr[5]="chore(bot): 🔥 Stay on fire"
+          arr[6]="chore(bot): 💯 Stay awesome"
+          arr[7]="chore(bot): 🌙 Stay cool"
+          arr[8]="chore(bot): 😎 Stay fun"
+          arr[9]="chore(bot): 😍 Stay love"
+          
+          rand=$[$RANDOM % ${#arr[@]}]
+          
+          git commit -m "${arr[$rand]}"
+
+      - name: DO It
+        run: |
+          arr[0]="chore(bot): Update last updated time"
+          arr[1]="chore(bot): Add one more commit"
+          arr[2]="chore(bot): Continue commit progress"
+          arr[3]="chore(bot): Keep commit history clean"
+          arr[4]="chore(bot): Keep commit history tidy"
+          arr[5]="chore(bot): Keep commit history short"
+          arr[6]="chore(bot): Keep commit history minimal"
+          arr[7]="chore(bot): Keep commit history clean and short"
+          arr[8]="chore(bot): Keep commit history tidy and short"
+          arr[9]="chore(bot): Keep commit history clean, tidy and short"
+          
+          rand=$[$RANDOM % ${#arr[@]}]
+          
+          for i in {0..${{ github.event.inputs.limit }}}
+          do
+            cat > LAST_UPDATED
+            d=$i+`date '+%Y-%m-%dT%H:%M:%SZ'`
+            echo $d > LAST_UPDATED
+            git add -A
+            git commit -m "${arr[$rand]}"
+          done
+
+      - name: GitHub Push
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          force: true
+          directory: "."
+          github_token: ${{ secrets.TOKEN }}
